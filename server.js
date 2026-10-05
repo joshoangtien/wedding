@@ -165,6 +165,14 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
+// Báo lỗi rõ ràng khi không mở được cổng (bị chiếm, không có quyền...)
+server.on("error", (err) => {
+  if (err.code === "EADDRINUSE") console.error(`[LỖI] Cổng ${PORT} đang bị chương trình khác dùng. Kiểm tra: sudo ss -ltnp | grep :${PORT}`);
+  else if (err.code === "EACCES") console.error(`[LỖI] Không có quyền mở cổng ${PORT}.`);
+  else console.error("[LỖI] Server:", err);
+  process.exit(1);
+});
+
 ensureFile()
   .then(() => {
     server.listen(PORT, HOST, () => {
@@ -174,7 +182,8 @@ ensureFile()
     });
   })
   .catch((err) => {
-    console.error("Không tạo được thư mục/file dữ liệu:", err);
+    console.error(`[LỖI] Không tạo/ghi được ${WISH_FILE}:`, err.code || err);
+    if (err.code === "EACCES") console.error(`      Thư mục data/ không có quyền ghi. Sửa: sudo chown -R $(whoami) ${DATA_DIR}`);
     process.exit(1);
   });
 
