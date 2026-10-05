@@ -92,8 +92,8 @@
     },
 
     "ban-be-o-que": {
-      "label": "Bạn bè nhà trai",
-      "side": "trai",
+      "label": "Bạn bè nhà gái",
+      "side": "gai",
       "events": [
         "vu-quy",
         "tiec-cuoi-o-que",
@@ -103,8 +103,8 @@
       "message": "Mời bạn đến chung vui cùng chúng mình trong bữa tiệc thân mật. Có bạn, ngày vui mới trọn vẹn!"
     },
     "ban-be-hn": {
-      "label": "Bạn bè nhà trai",
-      "side": "trai",
+      "label": "Bạn bè nhà gái",
+      "side": "gai",
       "events": [
         "vu-quy",
         "tiec-cuoi-hn",
