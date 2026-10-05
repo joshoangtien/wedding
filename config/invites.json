@@ -75,7 +75,7 @@
       "side": "trai",
       "events": [
         "vu-quy",
-        "tiec-cuoi-o-que",
+        "tiec-cuoi",
         "thanh-hon"
       ],
       "main": "tiec-cuoi",
@@ -85,7 +85,9 @@
       "label": "Bạn bè nhà trai",
       "side": "trai",
       "events": [
-        "tiec-cuoi"
+        "vu-quy",
+        "tiec-cuoi-o-que",
+        "thanh-hon"
       ],
       "main": "tiec-cuoi",
       "message": "Mời bạn đến chung vui cùng chúng mình trong bữa tiệc thân mật. Có bạn, ngày vui mới trọn vẹn!"
