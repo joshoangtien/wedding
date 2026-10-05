@@ -123,6 +123,10 @@
     "ban-be-hn": {
       "name": "",
       "group": "ban-be-hn"
+    },
+    "ban-hiep": {
+      "name": "Bạn Hiệp và gia đình",
+      "group": "ban-be"
     }
   }
 }
