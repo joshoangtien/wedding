@@ -1,0 +1,9 @@
+node_modules/
+logs/
+*.log
+
+# Lời chúc của khách nằm trên server, không đưa vào git để tránh bị ghi đè khi cập nhật
+data/wishes.txt
+
+.DS_Store
+Thumbs.db

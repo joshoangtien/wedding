@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hoàng Tiên & Trần Hồng</title>
+  <meta name="description" content="Trân trọng kính mời bạn đến dự lễ thành hôn của Minh Quân & Ngọc Anh" />
+  <meta name="theme-color" content="#244538" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="locked">
+
+  <!-- ===================== RÈM CỬA ===================== -->
+  <div id="curtain" aria-label="Chạm để mở thiệp" role="button" tabindex="0">
+    <div class="valance">
+      <div class="valance-body"><span>Song Hỷ Lâm Môn</span></div>
+      <div class="scallops"></div>
+    </div>
+
+    <div class="drape left"></div>
+    <div class="drape right"></div>
+
+    <div class="seal-wrap">
+      <button class="seal" type="button" aria-label="Mở thiệp">
+        <span class="seal-ring"></span>
+        <span class="seal-art" data-art="line"></span>
+        <span class="seal-initials">T <i>&amp;</i> H</span>
+        <span class="seal-date">18 · 10 · 2026</span>
+      </button>
+      <p class="hint">
+        <svg viewBox="0 0 24 24" class="hand" aria-hidden="true"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10m0-1.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1-6 6h-.6a6 6 0 0 1-4.6-2.2L4 15.6a1.5 1.5 0 0 1 2.3-1.9L9 16.5"/></svg>
+        Chạm để mở thiệp
+      </p>
+    </div>
+  </div>
+
+  <!-- Canvas cánh sen rơi + phấn hoa -->
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <!-- Nhạc nền: đặt file music.mp3 cạnh index.html -->
+  <audio id="bgm" src="music.mp3" loop preload="auto"></audio>
+  <button id="musicBtn" class="music-btn" type="button" aria-label="Bật/tắt nhạc">
+    <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+  </button>
+
+  <!-- ===================== NỘI DUNG THIỆP ===================== -->
+  <main id="main">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-leaf" data-art="leaf" data-bloom-on="open"></div>
+      <div class="hero-branch left" data-art="branch" data-bloom-on="open"></div>
+      <div class="hero-branch right" data-art="branch" data-bloom-on="open"></div>
+
+      <div class="hero-inner">
+        <p class="kicker h-anim" style="--i:0">Thiệp mời cưới</p>
+        <div class="arch h-anim" style="--i:1">
+          <div class="arch-art" data-art="pond" data-bloom-on="open"></div>
+          <!-- Ảnh bìa: images/hero.jpg -->
+          <img src="images/hero.jpg" alt="Ảnh cưới" onerror="this.remove()" />
+        </div>
+        <h1 class="names">
+          <span class="h-anim" style="--i:2">Hoàng Tiên</span>
+          <span class="amp h-anim" style="--i:3">&amp;</span>
+          <span class="h-anim" style="--i:4">Trần Hồng</span>
+        </h1>
+        <div class="hero-date h-anim" style="--i:5">
+          <span>Chủ Nhật</span>
+          <b>18.10.2026</b>
+          <span>13 giờ chiều</span>
+        </div>
+      </div>
+
+      <a href="#invite" class="scroll-down" aria-label="Cuộn xuống"><span></span></a>
+    </section>
+
+    <!-- LỜI MỜI -->
+    <section id="invite" class="section invite">
+      <div class="invite-sprig left" data-art="sprig"></div>
+      <div class="invite-sprig right" data-art="sprig"></div>
+
+      <div class="ornament reveal"><span data-art="line"></span></div>
+      <p class="sec-label reveal">Trân trọng kính mời</p>
+      <p class="invite-text reveal">
+        Bạn cùng gia đình đến chung vui trong ngày trọng đại của chúng mình.
+        Sự hiện diện của bạn là món quà ý nghĩa nhất.
+      </p>
+      <blockquote class="reveal">
+        Như đóa sen vươn lên từ đầm lặng,<br />
+        tình yêu mình nở trọn giữa bình yên.
+      </blockquote>
+    </section>
+
+    <!-- CẶP ĐÔI -->
+    <section class="section couple">
+      <header class="sec-head reveal">
+        <span class="sec-label">Cô dâu &amp; Chú rể</span>
+        <h2>Hai Chúng Mình</h2>
+        <div class="ornament"><span data-art="line"></span></div>
+      </header>
+
+      <div class="people">
+        <article class="person reveal from-left">
+          <div class="portrait-wrap">
+            <div class="portrait" data-initial="T">
+              <img src="images/groom.jpg" alt="Chú rể" onerror="this.remove()" />
+            </div>
+            <div class="portrait-sprig" data-art="sprig"></div>
+          </div>
+          <span class="role">Chú rể</span>
+          <h3>Hoàng Văn Tiên</h3>
+          <p class="parents">Ông Hoàng Văn Thanh &amp; Bùi Thị Diệp</p>
+        </article>
+
+        <div class="amp-big reveal">&amp;</div>
+
+        <article class="person reveal from-right">
+          <div class="portrait-wrap">
+            <div class="portrait" data-initial="H">
+              <img src="images/bride.jpg" alt="Cô dâu" onerror="this.remove()" />
+            </div>
+            <div class="portrait-sprig flip" data-art="sprig"></div>
+          </div>
+          <span class="role">Cô dâu</span>
+          <h3>Trần Thị Hồng</h3>
+          <p class="parents">Ông Trần Công Toòng &amp; Bùi Thị Ngả</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- SAVE THE DATE -->
+    <section class="section savedate">
+      <div class="watermark" data-art="leaf"></div>
+      <header class="sec-head reveal">
+        <span class="sec-label">Ngày chung đôi</span>
+        <h2>Save The Date</h2>
+        <div class="ornament"><span data-art="line"></span></div>
+      </header>
+
+      <div class="sd-grid">
+        <div class="sd-big reveal from-left">
+          <span class="sd-dow">Chủ Nhật</span>
+          <b>18</b>
+          <span class="sd-month">Tháng Mười · 2026</span>
+          <span class="sd-year">Năm Bính Ngọ</span>
+        </div>
+        <div class="calendar reveal from-right" id="calendar"></div>
+      </div>
+
+      <div class="countdown reveal" id="countdown">
+        <div><b data-cd="d">00</b><span>Ngày</span></div>
+        <div><b data-cd="h">00</b><span>Giờ</span></div>
+        <div><b data-cd="m">00</b><span>Phút</span></div>
+        <div><b data-cd="s">00</b><span>Giây</span></div>
+      </div>
+    </section>
+
+    <!-- SỰ KIỆN (dải xanh) -->
+    <section class="band events">
+      <div class="band-branch left" data-art="branch"></div>
+      <div class="band-branch right" data-art="branch"></div>
+
+      <div class="section">
+        <header class="sec-head light reveal">
+          <span class="sec-label">Thời gian &amp; Địa điểm</span>
+          <h2>Lễ Thành Hôn</h2>
+          <div class="ornament"><span data-art="line"></span></div>
+        </header>
+
+        <div class="event-grid">
+          <article class="event reveal" style="--delay:0s">
+            <span class="event-label">Lễ Vu Quy</span>
+            <b class="event-time">11:00</b>
+            <p class="event-date">Thứ Bảy · 17.10.2026</p>
+            <p class="event-place">Tư gia nhà gái<br />Đội 4, Thôn Văn Diệm, Hồng Châu, Hải Phòng</p>
+            <a class="btn btn-light" target="_blank" rel="noopener" href="https://maps.app.goo.gl/ycuaTezoLEoxhdnz7">Bản đồ</a>
+          </article>
+          <article class="event featured reveal" style="--delay:.15s">
+            <span class="event-label">Tiệc Cưới</span>
+            <b class="event-time">17:00</b>
+            <p class="event-date">Thứ Bảy · 17.10.2026</p>
+            <p class="event-place">Tư gia nhà trai<br />Thôn Nam Trực, Nam Minh, Ninh Bình</p>
+            <a class="btn btn-solid" target="_blank" rel="noopener" href="https://maps.app.goo.gl/sUbUdQpdzVKkfoiv8">Chỉ đường</a>
+          </article>
+          <article class="event reveal" style="--delay:.3s">
+            <span class="event-label">Lễ Thành Hôn</span>
+            <b class="event-time">13:00</b>
+            <p class="event-date">Chủ Nhật · 18.10.2026</p>
+            <p class="event-place">Tư gia nhà trai<br />Thôn Nam Trực, Nam Minh, Ninh Bình</p>
+            <a class="btn btn-light" target="_blank" rel="noopener" href="https://maps.app.goo.gl/sUbUdQpdzVKkfoiv8">Bản đồ</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ALBUM -->
+    <section class="section album">
+      <header class="sec-head reveal">
+        <span class="sec-label">Khoảnh khắc</span>
+        <h2>Album Ảnh Cưới</h2>
+        <div class="ornament"><span data-art="line"></span></div>
+      </header>
+      <!-- Đặt ảnh vào images/album-1.jpg ... album-6.jpg -->
+      <div class="gallery">
+        <figure class="reveal g1"><img src="images/album-1.jpg" alt="" onerror="this.remove()" /></figure>
+        <figure class="reveal g2"><img src="images/album-2.jpg" alt="" onerror="this.remove()" /></figure>
+        <figure class="reveal g3"><img src="images/album-3.jpg" alt="" onerror="this.remove()" /></figure>
+        <figure class="reveal g4"><img src="images/album-4.jpg" alt="" onerror="this.remove()" /></figure>
+        <figure class="reveal g5"><img src="images/album-5.jpg" alt="" onerror="this.remove()" /></figure>
+        <figure class="reveal g6"><img src="images/album-6.jpg" alt="" onerror="this.remove()" /></figure>
+      </div>
+    </section>
+
+    <!-- RSVP + SỔ LƯU BÚT -->
+    <section class="section rsvp">
+      <header class="sec-head reveal">
+        <span class="sec-label">Xác nhận tham dự &amp; gửi lời chúc</span>
+        <h2>Sổ Lưu Bút</h2>
+        <div class="ornament"><span data-art="line"></span></div>
+      </header>
+
+      <div class="rsvp-grid">
+        <form id="rsvpForm" class="card reveal from-left">
+          <label class="field">
+            <input type="text" name="name" required placeholder=" " maxlength="60" />
+            <span>Họ và tên</span>
+          </label>
+          <div class="choice">
+            <label><input type="radio" name="attend" value="yes" checked /><span>Sẽ đến dự</span></label>
+            <label><input type="radio" name="attend" value="no" /><span>Không thể đến</span></label>
+          </div>
+          <label class="field">
+            <select name="guests">
+              <option>1 người</option><option>2 người</option><option>3 người</option><option>4 người trở lên</option>
+            </select>
+            <span class="fixed">Số người tham dự</span>
+          </label>
+          <label class="field">
+            <textarea name="message" rows="3" placeholder=" " maxlength="300"></textarea>
+            <span>Lời chúc gửi cô dâu chú rể</span>
+          </label>
+          <button class="btn btn-solid" type="submit">Gửi lời chúc</button>
+        </form>
+
+        <div class="card wishes reveal from-right">
+          <h3>Lời chúc từ mọi người</h3>
+          <ul id="wishList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- MỪNG CƯỚI -->
+    <section class="section gift">
+      <header class="sec-head reveal">
+        <span class="sec-label">Hộp mừng cưới</span>
+        <h2>Gửi Yêu Thương</h2>
+        <div class="ornament"><span data-art="line"></span></div>
+      </header>
+      <div class="gift-grid">
+        <div class="gift-card reveal">
+          <div class="qr"><img src="images/qr-groom.png" alt="QR chú rể" onerror="this.remove()" /></div>
+          <span class="role">Chú rể</span>
+          <p class="bank">Vietcombank</p>
+          <p class="acc">0123 456 789</p>
+          <p class="owner">HOANG VAN TIEN</p>
+          <button class="btn btn-line copy" data-copy="0123456789" type="button">Sao chép số TK</button>
+        </div>
+        <div class="gift-card reveal" style="--delay:.15s">
+          <div class="qr"><img src="images/qr-bride.png" alt="QR cô dâu" onerror="this.remove()" /></div>
+          <span class="role">Cô dâu</span>
+          <p class="bank">Techcombank</p>
+          <p class="acc">9876 543 210</p>
+          <p class="owner">TRAN THI HONG</p>
+          <button class="btn btn-line copy" data-copy="9876543210" type="button">Sao chép số TK</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="band-branch left" data-art="branch"></div>
+      <div class="band-branch right" data-art="branch"></div>
+      <div class="footer-inner">
+        <div class="ornament reveal"><span data-art="line"></span></div>
+        <p class="sec-label reveal">Thank you</p>
+        <h2 class="reveal">Trân Trọng Cảm Ơn</h2>
+        <p class="reveal">Sự hiện diện của quý khách là niềm vinh hạnh<br />cho gia đình chúng tôi</p>
+        <p class="sign reveal">Hoàng Tiên &amp; Trần Hồng</p>
+      </div>
+    </footer>
+  </main>
+
+  <!-- Xem ảnh toàn màn hình -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Xem ảnh cưới" hidden>
+    <button class="lb-btn lb-close" type="button" aria-label="Đóng">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <button class="lb-btn lb-prev" type="button" aria-label="Ảnh trước">
+      <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <div class="lb-stage"></div>
+    <button class="lb-btn lb-next" type="button" aria-label="Ảnh sau">
+      <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <div class="lb-bar">
+      <span class="lb-count">1 / 6</span>
+      <div class="lb-thumbs"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

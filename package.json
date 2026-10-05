@@ -1,0 +1,22 @@
+{
+  "name": "thiep-cuoi-sen",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Thiệp cưới online chủ đề sen",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "build": "bash deploy.sh",
+    "deploy": "bash deploy.sh",
+    "pm2:start": "pm2 startOrReload ecosystem.config.js --env production --update-env && pm2 save",
+    "pm2:restart": "pm2 restart thiep-cuoi",
+    "pm2:stop": "pm2 stop thiep-cuoi",
+    "pm2:delete": "pm2 delete thiep-cuoi && pm2 save",
+    "pm2:logs": "pm2 logs thiep-cuoi",
+    "pm2:status": "pm2 status thiep-cuoi"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
