@@ -23,6 +23,15 @@
       "address": "Thôn Nam Trực, Nam Minh, Ninh Bình",
       "map": "https://maps.app.goo.gl/sUbUdQpdzVKkfoiv8"
     },
+    "tiec-cuoi-o-que": {
+      "title": "Tiệc Cưới",
+      "side": "gai",
+      "date": "2026-10-18",
+      "time": "07:00",
+      "place": "Tư gia nhà gái",
+      "address": "Đội 4, Thôn Văn Diệm, Hồng Châu, Hải Phòng",
+      "map": "https://maps.app.goo.gl/ycuaTezoLEoxhdnz7"
+    },
     "thanh-hon": {
       "title": "Lễ Thành Hôn",
       "side": "trai",
@@ -65,6 +74,17 @@
       "label": "Bạn bè nhà trai",
       "side": "trai",
       "events": [
+        "vu-quy",
+        "tiec-cuoi-o-que",
+        "thanh-hon"
+      ],
+      "main": "tiec-cuoi",
+      "message": "Mời bạn đến chung vui cùng chúng mình trong bữa tiệc thân mật. Có bạn, ngày vui mới trọn vẹn!"
+    },
+    "ban-be-o-que": {
+      "label": "Bạn bè nhà trai",
+      "side": "trai",
+      "events": [
         "tiec-cuoi"
       ],
       "main": "tiec-cuoi",
@@ -73,6 +93,10 @@
   },
   "defaultGroup": "chung",
   "guests": {
+    "o-que": {
+      "name": "",
+      "group": "ban-be-o-que"
+    },
     "chu-ba-a7k": {
       "name": "Chú Ba & gia đình",
       "group": "nha-trai"
