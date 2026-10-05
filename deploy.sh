@@ -38,6 +38,10 @@ if pm2 ping 2>&1 | grep -q "In-memory PM2 is out-of-date"; then
   exit 1
 fi
 
+# 2b. Cài thư viện (sharp — tạo ảnh xem trước có tên khách)
+step "Cài thư viện"
+npm ci --omit=dev --no-audit --no-fund || fail "Cài thư viện thất bại (npm ci)."
+
 # 3. Kiểm tra mã nguồn
 step "Kiểm tra mã nguồn"
 for f in index.html style.css script.js server.js ecosystem.config.js; do

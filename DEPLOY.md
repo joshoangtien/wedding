@@ -17,7 +17,7 @@ Nhớ copy kèm:
 cd /var/www/wedding
 npm run build
 ```
-Script `deploy.sh` sẽ tự: kiểm tra Node → cài pm2 nếu thiếu → kiểm tra code → tạo `data/`, `logs/` → khởi động bằng pm2 → kiểm tra app đã chạy.
+Script `deploy.sh` sẽ tự: kiểm tra Node → cài pm2 nếu thiếu → cài thư viện (`npm ci`) → kiểm tra code → tạo `data/`, `logs/` → khởi động bằng pm2 → kiểm tra app đã chạy.
 
 **Lần đầu tiên** chạy thêm để app tự bật lại khi server reboot:
 ```bash
@@ -72,7 +72,9 @@ npm run links                                  # in tất cả link để gửi 
 npm run remove -- chu-ba-a7k                   # xoá khách
 npm run report                                 # thống kê ai đến, bao nhiêu người, theo nhóm
 ```
-Ảnh xem trước khi gửi link qua Zalo/Facebook: đặt `images/og.jpg` (khoảng 1200×630), không có thì dùng `images/hero.jpg`.
+Ảnh xem trước khi gửi link qua Zalo/Facebook:
+- Link chung / link nhóm: `images/og.png`.
+- Link khách có `name` trong `config/invites.json`: `images/og-invite.png` có tên khách viết ở giữa (font `fonts/LavishlyYours-Regular.ttf`), tự tạo khi Facebook/Zalo đọc link. Sửa tên thì ảnh cũng tự đổi.
 
 ## Sổ lưu bút
 - File: `data/wishes.txt` — mỗi dòng: `thời gian | họ tên | tham dự | số người | nhóm khách | lời chúc`

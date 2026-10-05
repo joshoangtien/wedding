@@ -2,13 +2,14 @@
    SERVER THIỆP CƯỚI
    - Phục vụ trang web tĩnh (index.html, style.css, script.js, images/, music.mp3)
    - Sổ lưu bút: ghi lời chúc vào data/wishes.txt và đọc ra cho trang
-   Chạy:  node server.js   (mặc định cổng 5700, đổi bằng biến PORT)
-   Không cần cài thêm thư viện nào.
+   - Ảnh xem trước có tên khách: /og/<mã-khách>.png (cần sharp)
+   Chạy:  npm install && node server.js   (mặc định cổng 5700, đổi bằng biến PORT)
    ========================================================= */
 const http = require("http");
 const fs = require("fs");
 const fsp = fs.promises;
 const path = require("path");
+const crypto = require("crypto");
 
 const PORT = Number(process.env.PORT) || 5700;
 const HOST = process.env.HOST || "0.0.0.0"; // để 127.0.0.1 nếu chỉ cho Nginx truy cập
@@ -170,6 +171,61 @@ function resolveInvite(cfg, code) {
 
 const escHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
+/* ---------------- Ảnh xem trước có tên khách ----------------
+   /og/<mã-khách>.png → images/og-invite.png + tên khách (guests.<mã>.name)
+   viết ở giữa bằng font fonts/LavishlyYours-Regular.ttf.
+   Cần thư viện sharp (npm install). Thiếu sharp hoặc khách không có tên
+   thì dùng images/og.png. */
+const OG_INVITE = path.join(ROOT, "images", "og-invite.png");
+const OG_FONT = path.join(ROOT, "fonts", "LavishlyYours-Regular.ttf");
+const OG_COLOR = "#244538";
+let sharp = null;
+try {
+  sharp = require("sharp");
+} catch {
+  console.warn("[!] Chưa cài sharp (npm install) — ảnh xem trước sẽ không có tên khách.");
+}
+const canPersonalizeOg = () => Boolean(sharp) && fs.existsSync(OG_INVITE) && fs.existsSync(OG_FONT);
+const ogVersion = (name) => crypto.createHash("sha1").update(name).digest("hex").slice(0, 8);
+
+const ogCache = new Map(); // tên khách → { mtime, buf }
+async function renderGuestOg(name) {
+  const mtime = (await fsp.stat(OG_INVITE)).mtimeMs;
+  const hit = ogCache.get(name);
+  if (hit && hit.mtime === mtime) return hit.buf;
+
+  const base = sharp(OG_INVITE);
+  const { width: W, height: H } = await base.metadata();
+  const maxW = Math.round(W * 0.8);
+  const opts = {
+    text: `<span foreground="${OG_COLOR}">${name.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c])}</span>`,
+    font: "Lavishly Yours",
+    fontfile: OG_FONT,
+    rgba: true,
+    align: "centre",
+    wrap: "none",
+  };
+  let text = sharp({ text: { ...opts, dpi: Math.round(H * 0.85) } });
+  // Tên dài quá thì thu nhỏ cho vừa khung
+  if ((await text.metadata()).width > maxW) text = sharp({ text: { ...opts, width: maxW, height: Math.round(H * 0.3) } });
+
+  const buf = await base
+    .composite([{ input: await text.png().toBuffer(), gravity: "centre" }])
+    .png({ compressionLevel: 9 })
+    .toBuffer();
+  if (ogCache.size > 500) ogCache.clear();
+  ogCache.set(name, { mtime, buf });
+  return buf;
+}
+
+async function serveOg(req, res, code) {
+  const inv = resolveInvite(await loadInvites(), code);
+  if (!inv?.guest || !canPersonalizeOg()) return serveStatic(req, res, "/images/og.png");
+  const buf = await renderGuestOg(inv.guest);
+  res.writeHead(200, { "Content-Type": "image/png", "Content-Length": buf.length, "Cache-Control": "public, max-age=86400" });
+  res.end(req.method === "HEAD" ? undefined : buf);
+}
+
 async function renderIndex(req, res, code) {
   const [tpl, cfg] = await Promise.all([cachedRead(INDEX_FILE, (s) => s), loadInvites()]);
   const inv = resolveInvite(cfg, code);
@@ -183,7 +239,9 @@ async function renderIndex(req, res, code) {
     const when = main ? ` lúc ${main.time} ngày ${main.date.split("-").reverse().join("/")}` : "";
     const desc = `Trân trọng kính mời ${inv.guest || "bạn"} đến dự ${(main?.title || "lễ cưới").toLowerCase()} của ${names}${when}.`;
     const base = (cfg.baseUrl || "").replace(/\/$/, "");
-    const ogImgUrl = base && `${base}/images/og.png`;
+    // Khách có tên → ảnh riêng có tên (?v= đổi khi sửa tên để Facebook/Zalo lấy ảnh mới)
+    const ogImgUrl =
+      base && (inv.guest && canPersonalizeOg() ? `${base}/og/${inv.code}.png?v=${ogVersion(inv.guest)}` : `${base}/images/og.png`);
     const siteName = `Thiệp cưới ${names}`;
     const meta = [
       `<meta property="og:type" content="website" />`,
@@ -267,6 +325,10 @@ const server = http.createServer(async (req, res) => {
 
     if (urlPath.startsWith("/api/")) return sendJSON(res, 404, { error: "Not found" });
     if (req.method !== "GET" && req.method !== "HEAD") return res.writeHead(405).end();
+
+    // Ảnh xem trước có tên khách
+    const ogMatch = urlPath.match(/^\/og\/([a-z0-9-]{2,60})\.png$/i);
+    if (ogMatch) return await serveOg(req, res, ogMatch[1]);
 
     // Trang thiệp (chung / theo nhóm / theo khách)
     if (urlPath === "/" || urlPath === "/index.html") return await renderIndex(req, res, query.get("to"));
