@@ -124,8 +124,149 @@
       "name": "",
       "group": "ban-be-hn"
     },
+
     "ban-hiep": {
       "name": "Bạn Hiệp và gia đình",
+      "group": "ban-be"
+    },
+    "ban-kha": {
+      "name": "Bạn Kha và gia đình",
+      "group": "ban-be"
+    },
+    "ban-on": {
+      "name": "Bạn Ơn và người thương",
+      "group": "ban-be"
+    },
+    "ban-chien": {
+      "name": "Bạn Chiến và người thương",
+      "group": "ban-be"
+    },
+    "ban-duc": {
+      "name": "Bạn Hiệp và người thương",
+      "group": "ban-be"
+    },
+    "anh-cong": {
+      "name": "Anh chị Công Nhinh và gia đình",
+      "group": "ban-be"
+    },
+    "ban-huyen": {
+      "name": "Bạn Huyền và người thương",
+      "group": "ban-be"
+    },
+    "ban-linh": {
+      "name": "Bạn Linh và người thương",
+      "group": "ban-be"
+    },
+    "ban-anh": {
+      "name": "Bạn Ánh và người thương",
+      "group": "ban-be"
+    },
+    "ban-lan": {
+      "name": "Bạn Lan và người thương",
+      "group": "ban-be"
+    },
+    "em-viet": {
+      "name": "Em Việt Thúy và gia đình",
+      "group": "ban-be"
+    },
+    "em-tan": {
+      "name": "Bạn Tấn và gia đình",
+      "group": "ban-be"
+    },
+    "em-lan-t": {
+      "name": "Em Lan và người thương",
+      "group": "ban-be"
+    },
+    "em-phi": {
+      "name": "Em Phi Nhung và gia đình",
+      "group": "ban-be"
+    },
+    "em-truong": {
+      "name": "Em Trường và người thương",
+      "group": "ban-be"
+    },
+    "em-hung": {
+      "name": "Em Hùng và người thương",
+      "group": "ban-be"
+    },
+    "chi-hao": {
+      "name": "Anh chị Thuận Hảo và gia đình",
+      "group": "ban-be"
+    },
+    "em-anh": {
+      "name": "Em Hoàng Anh và gia đình",
+      "group": "ban-be"
+    },
+    "em-trung": {
+      "name": "Em Trung và gia đình",
+      "group": "ban-be"
+    },
+    "chi-huyen-miichi": {
+      "name": "Chị Huyền và gia đình",
+      "group": "ban-be"
+    },
+    "em-duc-anh-miichi": {
+      "name": "Em Đức Anh và người thương",
+      "group": "ban-be"
+    },
+    "anh-nhan-miichi": {
+      "name": "Anh Nhân và người thương",
+      "group": "ban-be"
+    },
+    "anh-hoang-miichi": {
+      "name": "Anh Hoàng và người thương",
+      "group": "ban-be"
+    },
+    "anh-cong-miichi": {
+      "name": "Anh Công và gia đình",
+      "group": "ban-be"
+    },
+    "anh-long-miichi": {
+      "name": "Anh Long và gia đình",
+      "group": "ban-be"
+    },
+    "anh-ty-miichi": {
+      "name": "Anh Tý và người thương",
+      "group": "ban-be"
+    },
+    "anh-khiem-miichi": {
+      "name": "Anh Khiêm và gia đình",
+      "group": "ban-be"
+    },
+    "em-hien-miichi": {
+      "name": "Em Hiền và người thương",
+      "group": "ban-be"
+    },
+    "em-thuyet": {
+      "name": "Em Thuyết và người thương",
+      "group": "ban-be"
+    },
+    "em-tuyet": {
+      "name": "Em Tuyết và người thương",
+      "group": "ban-be"
+    },
+    "anh-ha": {
+      "name": "Anh Hà và người thương",
+      "group": "ban-be"
+    },
+    "anh-quan": {
+      "name": "Anh Quân và gia đình",
+      "group": "ban-be"
+    },
+    "anh-thien": {
+      "name": "Anh Thiện và gia đình",
+      "group": "ban-be"
+    },
+    "anh-luong": {
+      "name": "Anh Lương và gia đình",
+      "group": "ban-be"
+    },
+    "em-hoa": {
+      "name": "Em Hòa và người thương",
+      "group": "ban-be"
+    },
+    "em-binh": {
+      "name": "Em Bình Quy và gia đình",
       "group": "ban-be"
     }
   }
