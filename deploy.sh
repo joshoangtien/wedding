@@ -26,7 +26,17 @@ if ! command -v pm2 >/dev/null 2>&1; then
   warn "Chưa có pm2, đang cài..."
   npm install -g pm2 || fail "Cài pm2 thất bại (thử chạy lại với sudo)."
 fi
-echo "    pm2 $(pm2 -v)"
+echo "    pm2 $(pm2 -v 2>/dev/null | tail -n1)"
+
+# pm2 đang chạy ngầm là bản cũ / từ project khác → app mới sẽ crash (MODULE_NOT_FOUND)
+if pm2 ping 2>&1 | grep -q "In-memory PM2 is out-of-date"; then
+  echo
+  warn "pm2 đang chạy ngầm khác phiên bản với pm2 đã cài (thường do từng chạy pm2 qua pnpm/npx trong project khác)."
+  warn "App mới sẽ không khởi động được. Chạy lệnh sau (các app khác chỉ restart vài giây, không mất):"
+  echo "      pm2 update && pm2 save"
+  echo "    rồi chạy lại: npm run build"
+  exit 1
+fi
 
 # 3. Kiểm tra mã nguồn
 step "Kiểm tra mã nguồn"
