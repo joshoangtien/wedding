@@ -34,13 +34,13 @@ module.exports = {
 
       env: {
         NODE_ENV: "development",
-        PORT: 3000,
+        PORT: 5700,
         HOST: "0.0.0.0",
       },
       env_production: {
         NODE_ENV: "production",
-        PORT: 3000,
-        // Nếu chạy sau Nginx thì để 127.0.0.1 cho an toàn; muốn truy cập thẳng IP:3000 thì đổi thành 0.0.0.0
+        PORT: 5700,
+        // Nếu chạy sau Nginx thì để 127.0.0.1 cho an toàn; muốn truy cập thẳng IP:5700 thì đổi thành 0.0.0.0
         HOST: "127.0.0.1",
       },
     },

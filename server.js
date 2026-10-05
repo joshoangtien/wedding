@@ -2,7 +2,7 @@
    SERVER THIỆP CƯỚI
    - Phục vụ trang web tĩnh (index.html, style.css, script.js, images/, music.mp3)
    - Sổ lưu bút: ghi lời chúc vào data/wishes.txt và đọc ra cho trang
-   Chạy:  node server.js   (mặc định cổng 3000, đổi bằng biến PORT)
+   Chạy:  node server.js   (mặc định cổng 5700, đổi bằng biến PORT)
    Không cần cài thêm thư viện nào.
    ========================================================= */
 const http = require("http");
@@ -10,7 +10,7 @@ const fs = require("fs");
 const fsp = fs.promises;
 const path = require("path");
 
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = Number(process.env.PORT) || 5700;
 const HOST = process.env.HOST || "0.0.0.0"; // để 127.0.0.1 nếu chỉ cho Nginx truy cập
 const IS_PROD = process.env.NODE_ENV === "production";
 const ROOT = __dirname;

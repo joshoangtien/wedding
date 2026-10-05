@@ -34,7 +34,7 @@ sudo nginx -t && sudo systemctl reload nginx
 sudo certbot --nginx -d ten-mien-cua-ban.com
 ```
 
-> Không dùng Nginx mà muốn vào thẳng `http://IP:3000`: mở `ecosystem.config.js`, đổi `HOST` trong `env_production` thành `"0.0.0.0"`, mở cổng 3000 trên firewall, rồi `npm run build` lại.
+> Không dùng Nginx mà muốn vào thẳng `http://IP:5700`: mở `ecosystem.config.js`, đổi `HOST` trong `env_production` thành `"0.0.0.0"`, mở cổng 5700 trên firewall, rồi `npm run build` lại.
 
 ## 4. Cập nhật thiệp
 Sửa file → upload đè lên server → chạy lại:
