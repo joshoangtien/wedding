@@ -184,15 +184,32 @@ async function renderIndex(req, res, code) {
     const desc = `Trân trọng kính mời ${inv.guest || "bạn"} đến dự ${(main?.title || "lễ cưới").toLowerCase()} của ${names}${when}.`;
     const base = (cfg.baseUrl || "").replace(/\/$/, "");
     const ogImg = ["og.jpg", "hero.jpg"].find((f) => fs.existsSync(path.join(ROOT, "images", f)));
+    const ogImgUrl = base && ogImg && `${base}/images/${ogImg}`;
+    const siteName = `Thiệp cưới ${names}`;
     const meta = [
       `<meta property="og:type" content="website" />`,
+      `<meta property="og:site_name" content="${escHtml(siteName)}" />`,
+      `<meta property="og:locale" content="vi_VN" />`,
       `<meta property="og:title" content="${escHtml(title)}" />`,
       `<meta property="og:description" content="${escHtml(desc)}" />`,
       base && `<meta property="og:url" content="${escHtml(`${base}/${code ? inv.code : ""}`)}" />`,
-      base && ogImg && `<meta property="og:image" content="${escHtml(`${base}/images/${ogImg}`)}" />`,
+      ogImgUrl && `<meta property="og:image" content="${escHtml(ogImgUrl)}" />`,
+      ogImgUrl && `<meta property="og:image:secure_url" content="${escHtml(ogImgUrl)}" />`,
+      ogImgUrl && `<meta property="og:image:type" content="image/jpeg" />`,
+      ogImg === "og.jpg" && `<meta property="og:image:width" content="1200" />`,
+      ogImg === "og.jpg" && `<meta property="og:image:height" content="630" />`,
+      ogImgUrl && `<meta property="og:image:alt" content="${escHtml(names)}" />`,
+      `<meta name="twitter:card" content="${ogImgUrl ? "summary_large_image" : "summary"}" />`,
+      `<meta name="twitter:title" content="${escHtml(title)}" />`,
+      `<meta name="twitter:description" content="${escHtml(desc)}" />`,
+      ogImgUrl && `<meta name="twitter:image" content="${escHtml(ogImgUrl)}" />`,
+      ogImgUrl && `<link rel="image_src" href="${escHtml(ogImgUrl)}" />`,
     ].filter(Boolean).join("\n  ");
 
     html = html
+      // Bỏ thẻ chia sẻ tĩnh trong index.html, thay bằng bản theo từng link
+      .replace(/[ \t]*<!-- Ảnh & mô tả khi chia sẻ[^>]*-->\r?\n/, "")
+      .replace(/[ \t]*<(?:meta (?:property="og:|name="twitter:)|link rel="image_src")[^>]*>\r?\n/g, "")
       .replace(/<title>[\s\S]*?<\/title>/, `<title>${escHtml(title)}</title>`)
       .replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${escHtml(desc)}" />\n  ${meta}`)
       .replace(
