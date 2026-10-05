@@ -750,3 +750,42 @@ body.revealed .scroll-down { opacity: .8; }
 #wishList b time { float: right; font-size: 11px; font-weight: 300; letter-spacing: .05em; color: var(--g300); margin-top: 2px; }
 #wishList li.empty { text-align: center; font-size: 14px; color: var(--muted); font-style: italic; border: none; padding: 30px 0; }
 #rsvpForm button:disabled { opacity: .6; cursor: wait; transform: none; }
+
+/* ---------------------------------------------------------
+   THIỆP CÁ NHÂN HOÁ
+   --------------------------------------------------------- */
+/* Tên khách trên rèm */
+.guest-to {
+  text-align: center;
+  color: var(--ivory);
+  text-shadow: 0 2px 10px rgba(8, 24, 19, .6);
+  margin-bottom: 2px;
+  max-width: 86vw;
+}
+.guest-to span { display: block; font-size: 11px; font-weight: 400; letter-spacing: .4em; padding-left: .4em; text-transform: uppercase; opacity: .85; }
+.guest-to b { display: block; font-size: clamp(22px, 5.2vw, 30px); font-weight: 200; letter-spacing: .04em; line-height: 1.35; margin-top: 4px; }
+.guest-to[hidden] { display: none; }
+
+/* Tên khách trong phần lời mời */
+.invite-guest {
+  font-size: clamp(26px, 5vw, 40px);
+  font-weight: 200;
+  letter-spacing: .03em;
+  color: var(--g800);
+  line-height: 1.3;
+  margin: -2px auto 22px;
+  padding-bottom: 18px;
+  max-width: 640px;
+  position: relative;
+}
+.invite-guest::after {
+  content: ""; position: absolute; left: 50%; bottom: 0; width: 60px; height: 1px;
+  margin-left: -30px; background: var(--g300);
+}
+.invite-guest[hidden] { display: none; }
+
+/* Số sự kiện ít hơn 3 thì căn giữa */
+@media (min-width: 901px) {
+  .event-grid.n1 { grid-template-columns: minmax(0, 380px); justify-content: center; }
+  .event-grid.n2 { grid-template-columns: repeat(2, minmax(0, 360px)); justify-content: center; }
+}

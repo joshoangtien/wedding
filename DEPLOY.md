@@ -52,8 +52,30 @@ pm2 reload không gián đoạn. **Lời chúc trong `data/wishes.txt` được 
 | Dừng | `npm run pm2:stop` |
 | Gỡ khỏi pm2 | `npm run pm2:delete` |
 
+## Thiệp theo nhóm / từng khách
+Cấu hình ở `config/invites.json` — sửa xong có hiệu lực ngay, không cần build lại.
+
+- `events`: các sự kiện (lễ, tiệc) — ngày, giờ, địa điểm, link bản đồ, `side` là `trai`/`gai`
+- `groups`: nhóm khách — mời những sự kiện nào (`events`), sự kiện chính để đếm ngược (`main`), thuộc bên nào (`side`), lời mời riêng (`message`, không bắt buộc)
+- `guests`: từng khách — tên hiển thị + thuộc nhóm nào
+
+Link gửi khách:
+| Link | Hiển thị |
+|---|---|
+| `wedding.xenmeta.com/` | Thiệp chung (nhóm `defaultGroup`) |
+| `wedding.xenmeta.com/nha-gai` | Thiệp nhà gái: tên cô dâu đứng trước, chỉ hiện sự kiện của nhóm |
+| `wedding.xenmeta.com/chu-ba-a7k` | Thiệp ghi tên "Chú Ba & gia đình" trên rèm + lời mời |
+
+```bash
+npm run add -- "Chú Ba & gia đình" nha-trai   # thêm khách, in link riêng
+npm run links                                  # in tất cả link để gửi Zalo/Messenger
+npm run remove -- chu-ba-a7k                   # xoá khách
+npm run report                                 # thống kê ai đến, bao nhiêu người, theo nhóm
+```
+Ảnh xem trước khi gửi link qua Zalo/Facebook: đặt `images/og.jpg` (khoảng 1200×630), không có thì dùng `images/hero.jpg`.
+
 ## Sổ lưu bút
-- File: `data/wishes.txt` — mỗi dòng: `thời gian | họ tên | tham dự | số người | lời chúc`
+- File: `data/wishes.txt` — mỗi dòng: `thời gian | họ tên | tham dự | số người | nhóm khách | lời chúc`
 - Ẩn lời chúc: xoá dòng đó, lưu file (không cần restart)
 - Tải về máy: `scp user@server:/var/www/wedding/data/wishes.txt .`
 

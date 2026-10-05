@@ -29,15 +29,15 @@ const TYPES = {
 };
 
 // Những file/thư mục không cho tải trực tiếp từ trình duyệt
-const BLOCKED = new Set(["data", "logs", "deploy", "node_modules", "server.js", "package.json", "ecosystem.config.js", "deploy.sh", "DEPLOY.md"]);
+const BLOCKED = new Set(["data", "config", "tools", "logs", "deploy", "node_modules", "server.js", "package.json", "ecosystem.config.js", "deploy.sh", "DEPLOY.md"]);
 
 /* ---------------- File lời chúc ----------------
    Mỗi dòng 1 lời chúc, các cột ngăn cách bằng " | ":
-   thời gian | họ tên | tham dự | số người | lời chúc
+   thời gian | họ tên | tham dự | số người | nhóm khách | lời chúc
    Dòng bắt đầu bằng # là ghi chú. Muốn ẩn lời chúc nào thì xoá dòng đó. */
 const HEADER =
   "# SỔ LƯU BÚT — mỗi dòng 1 lời chúc\n" +
-  "# thời gian | họ tên | tham dự | số người | lời chúc\n" +
+  "# thời gian | họ tên | tham dự | số người | nhóm khách | lời chúc\n" +
   "# Muốn ẩn lời chúc nào thì xoá dòng đó rồi lưu file.\n";
 
 async function ensureFile() {
@@ -61,8 +61,11 @@ async function readWishes() {
     .split(/\r?\n/)
     .filter((l) => l.trim() && !l.startsWith("#"))
     .map((l) => {
-      const [time, name, attend, guests, ...rest] = l.split(" | ");
-      return { time, name, attend, guests, text: rest.join(" | ") };
+      const cols = l.split(" | ");
+      // Dòng cũ có 5 cột (chưa có nhóm khách), dòng mới có 6 cột
+      const [time, name, attend, guests] = cols;
+      const hasGroup = cols.length >= 6;
+      return { time, name, attend, guests, group: hasGroup ? cols[4] : "", text: cols.slice(hasGroup ? 5 : 4).join(" | ") };
     })
     .filter((w) => w.name && w.text)
     .reverse(); // mới nhất lên đầu
@@ -116,9 +119,96 @@ async function serveStatic(req, res, urlPath) {
   }
 }
 
+/* ---------------- Thiệp mời theo nhóm / từng khách ----------------
+   Cấu hình ở config/invites.json. Link:
+     /               → thiệp chung (defaultGroup)
+     /<mã-nhóm>      → thiệp cho cả nhóm, ví dụ /nha-gai
+     /<mã-khách>     → thiệp ghi tên riêng, ví dụ /chu-ba-a7k
+   Sửa file JSON là có hiệu lực ngay, không cần restart. */
+const INVITE_FILE = path.join(ROOT, "config", "invites.json");
+const INDEX_FILE = path.join(ROOT, "index.html");
+
+const fileCache = new Map();
+async function cachedRead(file, parse) {
+  const { mtimeMs } = await fsp.stat(file);
+  const hit = fileCache.get(file);
+  if (hit && hit.mtime === mtimeMs) return hit.value;
+  const value = parse(await fsp.readFile(file, "utf8"));
+  fileCache.set(file, { mtime: mtimeMs, value });
+  return value;
+}
+
+async function loadInvites() {
+  try {
+    return await cachedRead(INVITE_FILE, JSON.parse);
+  } catch (err) {
+    console.error("[LỖI] Không đọc được config/invites.json:", err.message);
+    return null;
+  }
+}
+
+function resolveInvite(cfg, code) {
+  if (!cfg) return null;
+  const key = String(code || "").toLowerCase();
+  const guest = cfg.guests?.[key];
+  const groupKey = guest ? guest.group : cfg.groups?.[key] ? key : cfg.defaultGroup;
+  const group = cfg.groups?.[groupKey] || {};
+  const evKeys = guest?.events || group.events || Object.keys(cfg.events || {});
+  const events = evKeys.filter((k) => cfg.events?.[k]).map((k) => ({ key: k, ...cfg.events[k] }));
+  return {
+    code: guest ? key : groupKey || "",
+    guest: guest?.name || "",
+    group: groupKey || "",
+    label: group.label || "",
+    side: group.side || "",
+    message: guest?.message || group.message || "",
+    couple: cfg.couple || {},
+    events,
+    main: guest?.main || group.main || events[0]?.key || "",
+  };
+}
+
+const escHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+async function renderIndex(req, res, code) {
+  const [tpl, cfg] = await Promise.all([cachedRead(INDEX_FILE, (s) => s), loadInvites()]);
+  const inv = resolveInvite(cfg, code);
+  let html = tpl;
+
+  if (inv) {
+    const { groom = "", bride = "" } = inv.couple;
+    const names = inv.side === "gai" ? `${bride} & ${groom}` : `${groom} & ${bride}`;
+    const main = inv.events.find((e) => e.key === inv.main);
+    const title = inv.guest ? `Kính mời ${inv.guest} · ${names}` : `${names} · Thiệp cưới`;
+    const when = main ? ` lúc ${main.time} ngày ${main.date.split("-").reverse().join("/")}` : "";
+    const desc = `Trân trọng kính mời ${inv.guest || "bạn"} đến dự ${(main?.title || "lễ cưới").toLowerCase()} của ${names}${when}.`;
+    const base = (cfg.baseUrl || "").replace(/\/$/, "");
+    const ogImg = ["og.jpg", "hero.jpg"].find((f) => fs.existsSync(path.join(ROOT, "images", f)));
+    const meta = [
+      `<meta property="og:type" content="website" />`,
+      `<meta property="og:title" content="${escHtml(title)}" />`,
+      `<meta property="og:description" content="${escHtml(desc)}" />`,
+      base && `<meta property="og:url" content="${escHtml(`${base}/${code ? inv.code : ""}`)}" />`,
+      base && ogImg && `<meta property="og:image" content="${escHtml(`${base}/images/${ogImg}`)}" />`,
+    ].filter(Boolean).join("\n  ");
+
+    html = html
+      .replace(/<title>[\s\S]*?<\/title>/, `<title>${escHtml(title)}</title>`)
+      .replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${escHtml(desc)}" />\n  ${meta}`)
+      .replace(
+        '<script src="script.js"></script>',
+        `<script>window.INVITE = ${JSON.stringify(inv).replace(/</g, "\u003c")};</script>\n  <script src="script.js"></script>`
+      );
+  }
+
+  res.writeHead(200, { "Content-Type": TYPES[".html"], "Cache-Control": "no-cache" });
+  res.end(req.method === "HEAD" ? undefined : html);
+}
+
 /* ---------------- Router ---------------- */
 const server = http.createServer(async (req, res) => {
-  const urlPath = req.url.split("?")[0];
+  const [urlPath, qs = ""] = req.url.split("?");
+  const query = new URLSearchParams(qs);
 
   try {
     if (urlPath === "/api/wishes" && req.method === "GET") {
@@ -147,16 +237,25 @@ const server = http.createServer(async (req, res) => {
 
       if (!name) return sendJSON(res, 400, { error: "Vui lòng nhập họ tên." });
 
+      // Ghi lại khách thuộc nhóm nào (theo link họ mở)
+      const inv = resolveInvite(await loadInvites(), clean(body.code, 60));
+      const group = clean(inv ? [inv.label || inv.group, inv.guest ? inv.code : ""].filter(Boolean).join(" · ") : "", 80) || "-";
+
       await ensureFile();
       const time = stamp();
-      await fsp.appendFile(WISH_FILE, `${time} | ${name} | ${attend} | ${guests} | ${text}\n`, "utf8");
+      await fsp.appendFile(WISH_FILE, `${time} | ${name} | ${attend} | ${guests} | ${group} | ${text}\n`, "utf8");
       lastPost.set(ip, now);
-      console.log(`[Lời chúc] ${name}: ${text}`);
+      console.log(`[Lời chúc] ${name} (${group}): ${text}`);
       return sendJSON(res, 201, { time, name, text });
     }
 
     if (urlPath.startsWith("/api/")) return sendJSON(res, 404, { error: "Not found" });
     if (req.method !== "GET" && req.method !== "HEAD") return res.writeHead(405).end();
+
+    // Trang thiệp (chung / theo nhóm / theo khách)
+    if (urlPath === "/" || urlPath === "/index.html") return await renderIndex(req, res, query.get("to"));
+    const codeMatch = urlPath.match(/^\/([a-z0-9-]{2,60})\/?$/i);
+    if (codeMatch && !BLOCKED.has(codeMatch[1])) return await renderIndex(req, res, codeMatch[1]);
 
     await serveStatic(req, res, urlPath);
   } catch (err) {

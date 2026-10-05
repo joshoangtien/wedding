@@ -45,6 +45,9 @@ for f in index.html style.css script.js server.js ecosystem.config.js; do
 done
 node --check server.js
 node --check script.js
+[ -f config/invites.json ] || fail "Thiếu file config/invites.json"
+node -e 'JSON.parse(require("fs").readFileSync("config/invites.json","utf8"))' \
+  || fail "config/invites.json bị lỗi cú pháp JSON (thiếu dấu phẩy / ngoặc?)"
 echo "    OK"
 
 # 4. Tạo thư mục dữ liệu + log (không ghi đè lời chúc cũ)

@@ -1,7 +1,141 @@
 /* =========================================================
-   CẤU HÌNH — sửa ngày giờ cưới ở đây
+   CẤU HÌNH — ngày giờ mặc định (khi mở thiệp không qua server).
+   Khi chạy bằng server, ngày giờ lấy theo config/invites.json.
    ========================================================= */
-const WEDDING_DATE = new Date("2026-10-18T11:00:00+07:00");
+let WEDDING_DATE = new Date("2026-10-18T13:00:00+07:00");
+let WEDDING_DAY = { y: 2026, m: 9, d: 18 }; // m tính từ 0 (9 = tháng 10)
+
+/* =========================================================
+   THIỆP THEO NHÓM / TỪNG KHÁCH
+   Server chèn dữ liệu vào window.INVITE theo link khách mở.
+   ========================================================= */
+const INVITE = window.INVITE || null;
+const DOW = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+const MONTHS = ["Một", "Hai", "Ba", "Tư", "Năm", "Sáu", "Bảy", "Tám", "Chín", "Mười", "Mười Một", "Mười Hai"];
+const SIDE_TEXT = {
+  gai: {
+    kicker: "Lễ Vu Quy",
+    label: "Gia đình nhà gái trân trọng kính mời",
+    text: "Đến dự bữa cơm thân mật mừng lễ Vu Quy của con gái chúng tôi. Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình.",
+    events: "Lễ Vu Quy",
+  },
+  trai: {
+    kicker: "Lễ Thành Hôn",
+    label: "Gia đình nhà trai trân trọng kính mời",
+    text: "Đến dự bữa cơm thân mật mừng lễ Thành Hôn của con trai chúng tôi. Sự hiện diện của quý khách là niềm vinh hạnh cho gia đình.",
+    events: "Lễ Thành Hôn",
+  },
+};
+
+const pad2 = (n) => String(n).padStart(2, "0");
+// Tách "YYYY-MM-DD" → thứ, ngày.tháng.năm (không phụ thuộc múi giờ máy khách)
+function dayInfo(ymd) {
+  const [y, m, d] = ymd.split("-").map(Number);
+  return { y, m, d, dow: DOW[new Date(Date.UTC(y, m - 1, d)).getUTCDay()], text: `${pad2(d)}.${pad2(m)}.${y}` };
+}
+function timeWords(hhmm = "") {
+  const [h, m] = hhmm.split(":").map(Number);
+  if (Number.isNaN(h)) return "";
+  const part = h < 11 ? "sáng" : h < 13 ? "trưa" : h < 18 ? "chiều" : "tối";
+  return `${h} giờ${m ? " " + m : ""} ${part}`;
+}
+
+function applyInvite(inv) {
+  if (!inv) return;
+  const $ = (s) => document.querySelector(s);
+  const side = SIDE_TEXT[inv.side] || {};
+  const events = [...inv.events].sort((a, b) => `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`));
+  const main = events.find((e) => e.key === inv.main) || events[0];
+
+  // Ngày giờ chính → hero, con dấu, Save the date, đếm ngược, lịch
+  if (main) {
+    const di = dayInfo(main.date);
+    WEDDING_DATE = new Date(`${main.date}T${main.time || "00:00"}:00+07:00`);
+    WEDDING_DAY = { y: di.y, m: di.m - 1, d: di.d };
+    const hd = $(".hero-date").children;
+    hd[0].textContent = di.dow;
+    hd[1].textContent = di.text;
+    hd[2].textContent = timeWords(main.time);
+    $(".seal-date").textContent = di.text.replaceAll(".", " · ");
+    $(".sd-dow").textContent = di.dow;
+    $(".sd-big b").textContent = di.d;
+    $(".sd-month").textContent = `Tháng ${MONTHS[di.m - 1]} · ${di.y}`;
+  }
+
+  // Thiệp nhà gái: tên cô dâu đứng trước (theo phong tục)
+  if (inv.side === "gai") {
+    const n = $(".names").children;
+    [n[0].textContent, n[2].textContent] = [n[2].textContent, n[0].textContent];
+    const seal = $(".seal-initials");
+    const [a, b] = seal.textContent.split("&").map((s) => s.trim());
+    seal.innerHTML = `${b} <i>&amp;</i> ${a}`;
+    const sign = $(".footer .sign");
+    sign.textContent = sign.textContent.split("&").map((s) => s.trim()).reverse().join(" & ");
+
+    const people = $(".people");
+    const [groom, , bride] = people.children;
+    people.prepend(bride);
+    people.append(groom);
+    bride.classList.replace("from-right", "from-left");
+    groom.classList.replace("from-left", "from-right");
+    people.querySelectorAll(".portrait-sprig").forEach((s) => s.classList.toggle("flip"));
+
+    const gifts = $(".gift-grid");
+    gifts.prepend(gifts.lastElementChild);
+    [...gifts.children].forEach((g, i) => g.style.setProperty("--delay", `${i * 0.15}s`));
+  }
+
+  // Lời mời
+  if (side.kicker) $("#kicker").textContent = side.kicker;
+  if (side.label) $("#inviteLabel").textContent = side.label;
+  if (side.events) $("#eventsTitle").textContent = side.events;
+  if (inv.message || side.text) $("#inviteText").textContent = inv.message || side.text;
+  if (inv.guest) {
+    const g = $("#inviteGuest");
+    g.textContent = inv.guest;
+    g.hidden = false;
+    const to = $(".guest-to");
+    to.querySelector("b").textContent = inv.guest;
+    to.hidden = false;
+  }
+
+  // Chỉ hiện những sự kiện khách được mời, theo thứ tự thời gian
+  if (events.length) {
+    const grid = $(".event-grid");
+    grid.innerHTML = "";
+    grid.className = `event-grid n${Math.min(events.length, 3)}`;
+    events.forEach((e, i) => {
+      const di = dayInfo(e.date);
+      const featured = main && e.key === main.key;
+      const card = document.createElement("article");
+      card.className = `event reveal${featured ? " featured" : ""}`;
+      card.style.setProperty("--delay", `${i * 0.15}s`);
+      card.innerHTML = `<span class="event-label"></span><b class="event-time"></b><p class="event-date"></p><p class="event-place"></p>`;
+      card.querySelector(".event-label").textContent = e.title;
+      card.querySelector(".event-time").textContent = e.time;
+      card.querySelector(".event-date").textContent = `${di.dow} · ${di.text}`;
+      const place = card.querySelector(".event-place");
+      place.append(e.place || "");
+      if (e.address) place.append(document.createElement("br"), e.address);
+      if (e.map) {
+        const a = document.createElement("a");
+        a.className = `btn ${featured ? "btn-solid" : "btn-light"}`;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.href = e.map;
+        a.textContent = featured ? "Chỉ đường" : "Bản đồ";
+        card.appendChild(a);
+      }
+      grid.appendChild(card);
+    });
+  }
+
+  // Sổ lưu bút: ghi nhận khách đến từ link nào, điền sẵn tên
+  const form = document.getElementById("rsvpForm");
+  form.elements.code.defaultValue = inv.code || "";
+  if (inv.guest) form.elements.name.defaultValue = inv.guest;
+}
+applyInvite(INVITE);
 
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const rand = (a, b) => a + Math.random() * (b - a);
@@ -436,7 +570,7 @@ setInterval(updateCountdown, 1000);
    LỊCH
    ========================================================= */
 (function buildCalendar() {
-  const y = WEDDING_DATE.getFullYear(), m = WEDDING_DATE.getMonth(), day = WEDDING_DATE.getDate();
+  const { y, m, d: day } = WEDDING_DAY;
   const first = (new Date(y, m, 1).getDay() + 6) % 7; // Thứ 2 đầu tuần
   const days = new Date(y, m + 1, 0).getDate();
   let html = `<div class="cal-title">Tháng ${m + 1} · ${y}</div><div class="cal-grid">`;

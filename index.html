@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hoàng Tiên & Trần Hồng</title>
-  <meta name="description" content="Trân trọng kính mời bạn đến dự lễ thành hôn của Minh Quân & Ngọc Anh" />
+  <meta name="description" content="Trân trọng kính mời bạn đến dự lễ thành hôn của Hoàng Tiên & Trần Hồng" />
   <meta name="theme-color" content="#244538" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,6 +24,7 @@
     <div class="drape right"></div>
 
     <div class="seal-wrap">
+      <p class="guest-to" hidden><span>Trân trọng kính mời</span><b></b></p>
       <button class="seal" type="button" aria-label="Mở thiệp">
         <span class="seal-ring"></span>
         <span class="seal-art" data-art="line"></span>
@@ -56,7 +57,7 @@
       <div class="hero-branch right" data-art="branch" data-bloom-on="open"></div>
 
       <div class="hero-inner">
-        <p class="kicker h-anim" style="--i:0">Thiệp mời cưới</p>
+        <p class="kicker h-anim" id="kicker" style="--i:0">Thiệp mời cưới</p>
         <div class="arch h-anim" style="--i:1">
           <div class="arch-art" data-art="pond" data-bloom-on="open"></div>
           <!-- Ảnh bìa: images/hero.jpg -->
@@ -83,8 +84,9 @@
       <div class="invite-sprig right" data-art="sprig"></div>
 
       <div class="ornament reveal"><span data-art="line"></span></div>
-      <p class="sec-label reveal">Trân trọng kính mời</p>
-      <p class="invite-text reveal">
+      <p class="sec-label reveal" id="inviteLabel">Trân trọng kính mời</p>
+      <p class="invite-guest reveal" id="inviteGuest" hidden></p>
+      <p class="invite-text reveal" id="inviteText">
         Bạn cùng gia đình đến chung vui trong ngày trọng đại của chúng mình.
         Sự hiện diện của bạn là món quà ý nghĩa nhất.
       </p>
@@ -166,7 +168,7 @@
       <div class="section">
         <header class="sec-head light reveal">
           <span class="sec-label">Thời gian &amp; Địa điểm</span>
-          <h2>Lễ Thành Hôn</h2>
+          <h2 id="eventsTitle">Lễ Thành Hôn</h2>
           <div class="ornament"><span data-art="line"></span></div>
         </header>
 
@@ -224,6 +226,7 @@
 
       <div class="rsvp-grid">
         <form id="rsvpForm" class="card reveal from-left">
+          <input type="hidden" name="code" value="" />
           <label class="field">
             <input type="text" name="name" required placeholder=" " maxlength="60" />
             <span>Họ và tên</span>
