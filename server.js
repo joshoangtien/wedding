@@ -50,9 +50,16 @@ async function ensureFile() {
 const clean = (s, max) =>
   String(s ?? "").replace(/[\r\n\t]+/g, " ").replace(/\|/g, "/").replace(/\s{2,}/g, " ").trim().slice(0, max);
 
+// Luôn ghi theo giờ Việt Nam, không phụ thuộc múi giờ của máy chủ (server Linux thường để UTC)
+const TIME_ZONE = process.env.WISH_TZ || "Asia/Ho_Chi_Minh";
+const stampFmt = new Intl.DateTimeFormat("en-GB", {
+  timeZone: TIME_ZONE,
+  year: "numeric", month: "2-digit", day: "2-digit",
+  hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+});
 function stamp(d = new Date()) {
-  const p = (n) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  const p = Object.fromEntries(stampFmt.formatToParts(d).map(({ type, value }) => [type, value]));
+  return `${p.year}-${p.month}-${p.day} ${p.hour}:${p.minute}`;
 }
 
 async function readWishes() {
