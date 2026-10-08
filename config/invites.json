@@ -198,7 +198,7 @@
       "group": "ban-be"
     },
     "em-trung": {
-      "name": "Em Trung và gia đình",
+      "name": "Em Trung và người thương",
       "group": "ban-be"
     },
     "chi-huyen-miichi": {
@@ -262,11 +262,15 @@
       "group": "ban-be"
     },
     "em-hoa": {
-      "name": "Em Hòa và người thương",
+      "name": "Em Hòa",
       "group": "ban-be"
     },
     "em-binh": {
       "name": "Em Bình Quy và gia đình",
+      "group": "ban-be"
+    },
+    "anh-bac": {
+      "name": "Anh Bắc và gia đình",
       "group": "ban-be"
     }
   }
