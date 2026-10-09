@@ -316,6 +316,46 @@
     "em-cong": {
       "name": "Em Công và gia đình",
       "group": "ban-be"
+    },
+    "anh-tuyen-miichi": {
+      "name": "Anh Tuyên và gia đình",
+      "group": "ban-be"
+    },
+    "anh-tuan-miichi": {
+      "name": "Anh Tuấn và gia đình",
+      "group": "ban-be"
+    },
+    "anh-cuong-miichi": {
+      "name": "Anh Cường và gia đình",
+      "group": "ban-be"
+    },
+    "anh-trung-miichi": {
+      "name": "Anh Trung và gia đình",
+      "group": "ban-be"
+    },
+    "em-tuan-miichi": {
+      "name": "Anh Tuyên và gia đình",
+      "group": "ban-be"
+    },
+    "anh-ha-miichi": {
+      "name": "Anh Tuyên và gia đình",
+      "group": "ban-be"
+    },
+    "anh-nam-miichi": {
+      "name": "Anh Tuyên và gia đình",
+      "group": "ban-be"
+    },
+    "anh-hiep-miichi": {
+      "name": "Anh Tuyên và gia đình",
+      "group": "ban-be"
+    },
+    "anh-dai-miichi": {
+      "name": "Anh Tuyên và gia đình",
+      "group": "ban-be"
+    },
+    "anh-hung-miichi": {
+      "name": "Anh Tuyên và gia đình",
+      "group": "ban-be"
     }
   }
 }
