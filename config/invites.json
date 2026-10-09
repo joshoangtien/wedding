@@ -354,7 +354,7 @@
       "group": "ban-be"
     },
     "anh-dai-miichi": {
-      "name": "Anh Đại và gia đình",
+      "name": "Anh Đại và người ấy",
       "group": "ban-be"
     },
     "anh-hung-miichi": {
@@ -383,6 +383,10 @@
     },
     "anh-tung-miichi": {
       "name": "Anh Tùng và người thương",
+      "group": "ban-be"
+    },
+    "chi-hang-miichi": {
+      "name": "Chị Hằng và người ấy",
       "group": "ban-be"
     }
   }
