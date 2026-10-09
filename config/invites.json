@@ -154,15 +154,15 @@
       "group": "ban-be"
     },
     "ban-linh": {
-      "name": "Bạn Linh và người thương",
+      "name": "Bạn Linh và gia đình",
       "group": "ban-be"
     },
     "ban-anh": {
-      "name": "Bạn Ánh và người thương",
+      "name": "Bạn Ánh và gia đình",
       "group": "ban-be"
     },
     "ban-lan": {
-      "name": "Bạn Lan và người thương",
+      "name": "Bạn Lan và gia đình",
       "group": "ban-be"
     },
     "em-viet": {
@@ -275,6 +275,18 @@
     },
     "anh-bac": {
       "name": "Anh Bắc và gia đình",
+      "group": "ban-be"
+    },
+    "ban-huong": {
+      "name": "Bạn Hướng và gia đình",
+      "group": "ban-be"
+    },
+    "ban-canh": {
+      "name": "Bạn Cảnh và gia đình",
+      "group": "ban-be"
+    },
+    "ban-truong": {
+      "name": "Bạn Trường và gia đình",
       "group": "ban-be"
     }
   }
