@@ -312,6 +312,10 @@
     "anh-thuong": {
       "name": "Anh Thưởng và gia đình",
       "group": "ban-be"
+    },
+    "em-cong": {
+      "name": "Em Công và gia đình",
+      "group": "ban-be"
     }
   }
 }
