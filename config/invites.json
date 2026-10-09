@@ -288,6 +288,30 @@
     "ban-truong": {
       "name": "Bạn Trường và gia đình",
       "group": "ban-be"
+    },
+    "anh-hoang": {
+      "name": "Anh Hoàng và gia đình",
+      "group": "ban-be"
+    },
+    "anh-do": {
+      "name": "Anh Độ và gia đình",
+      "group": "ban-be"
+    },
+    "anh-dong": {
+      "name": "Anh Đồng và gia đình",
+      "group": "ban-be"
+    },
+    "em-chien": {
+      "name": "Em Chiến và gia đình",
+      "group": "ban-be"
+    },
+    "em-ngoc": {
+      "name": "Em Ngọc và gia đình",
+      "group": "ban-be"
+    },
+    "anh-thuong": {
+      "name": "Anh Thưởng và gia đình",
+      "group": "ban-be"
     }
   }
 }
