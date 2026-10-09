@@ -334,27 +334,35 @@
       "group": "ban-be"
     },
     "em-tuan-miichi": {
-      "name": "Anh Tuyên và gia đình",
+      "name": "Em Tuấn và gia đình",
       "group": "ban-be"
     },
     "anh-ha-miichi": {
-      "name": "Anh Tuyên và gia đình",
+      "name": "Anh Hà và gia đình",
       "group": "ban-be"
     },
     "anh-nam-miichi": {
-      "name": "Anh Tuyên và gia đình",
+      "name": "Anh Nam và gia đình",
       "group": "ban-be"
     },
     "anh-hiep-miichi": {
-      "name": "Anh Tuyên và gia đình",
+      "name": "Anh Hiệp và gia đình",
       "group": "ban-be"
     },
     "anh-dai-miichi": {
-      "name": "Anh Tuyên và gia đình",
+      "name": "Anh Đại và gia đình",
       "group": "ban-be"
     },
     "anh-hung-miichi": {
-      "name": "Anh Tuyên và gia đình",
+      "name": "Anh Hưng và gia đình",
+      "group": "ban-be"
+    },
+    "anh-hieu-miichi": {
+      "name": "Anh Hiệu và gia đình",
+      "group": "ban-be"
+    },
+    "em-thuan-miichi": {
+      "name": "Em Thuấn và gia đình",
       "group": "ban-be"
     }
   }
