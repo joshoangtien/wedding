@@ -376,6 +376,14 @@
     "em-phan-anh-miichi": {
       "name": "Em Phan Anh và gia đình",
       "group": "ban-be"
+    },
+    "chi-quynh-miichi": {
+      "name": "Chị Quỳnh và người thương",
+      "group": "ban-be"
+    },
+    "anh-tung-miichi": {
+      "name": "Anh Tùng và người thương",
+      "group": "ban-be"
     }
   }
 }
