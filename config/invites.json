@@ -364,6 +364,10 @@
     "em-thuan-miichi": {
       "name": "Em Thuấn và gia đình",
       "group": "ban-be"
+    },
+    "ban-hieu-miichi": {
+      "name": "Bạn Hiếu và gia đình",
+      "group": "ban-be"
     }
   }
 }
