@@ -388,6 +388,22 @@
     "chi-hang-miichi": {
       "name": "Chị Hằng và người ấy",
       "group": "ban-be"
+    },
+    "anh-toan": {
+      "name": "Anh Toản và gia đình",
+      "group": "ban-be"
+    },
+    "anh-tong": {
+      "name": "Anh Tòng và gia đình",
+      "group": "ban-be"
+    },
+    "em-duy": {
+      "name": "Em Duy và gia đình",
+      "group": "ban-be"
+    },
+    "em-son": {
+      "name": "Em Sơn và gia đình",
+      "group": "ban-be"
     }
   }
 }
