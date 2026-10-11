@@ -404,6 +404,34 @@
     "em-son": {
       "name": "Em Sơn và gia đình",
       "group": "ban-be"
+    },
+    "em-thong": {
+      "name": "Em Thông và gia đình",
+      "group": "ban-be"
+    },
+    "em-chi": {
+      "name": "Em Chi và gia đình",
+      "group": "ban-be"
+    },
+    "em-trinh": {
+      "name": "Em Trịnh và gia đình",
+      "group": "ban-be"
+    },
+    "em-loc": {
+      "name": "Em Lộc và gia đình",
+      "group": "ban-be"
+    },
+    "em-gam": {
+      "name": "Em Gấm và gia đình",
+      "group": "ban-be"
+    },
+    "e-hung": {
+      "name": "Em Hùng và gia đình",
+      "group": "ban-be"
+    },
+    "em-huong": {
+      "name": "Em Hường và gia đình",
+      "group": "ban-be"
     }
   }
 }
