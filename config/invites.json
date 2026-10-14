@@ -432,6 +432,10 @@
     "em-huong": {
       "name": "Em Hường và gia đình",
       "group": "ban-be"
+    },
+    "chau-thanh": {
+      "name": "Cháu Thanh và người thương",
+      "group": "ban-be"
     }
   }
 }
